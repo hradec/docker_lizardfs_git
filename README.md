@@ -1,6 +1,6 @@
-docker_lizardfs_git
+# docker_lizardfs
 
-A Docker image running a easily configurable LizardFS on top of Arch Linux!
+A Docker image running a easily configurable LizardFS on top of Arch Linux! 
 
 You can use it to create a container for any of the servers (master, shadow, chunk, metalogger and cgi web), and also fully configure any of the servers options using environment variables.
 
@@ -10,6 +10,7 @@ The envinroment variable MFSMASTER sets the IP for the LizardFS master server. E
 
 run
 
-docker run -ti hradec/docker_lizardfs_git
+  docker run -ti hradec/lizardfs:latest
+
 
 for an up-to-date help!
