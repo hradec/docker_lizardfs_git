@@ -1,4 +1,4 @@
-#docker_lizardfs_git
+docker_lizardfs_git
 
 A Docker image running a easily configurable LizardFS on top of Arch Linux!
 
