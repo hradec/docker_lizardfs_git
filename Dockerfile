@@ -5,7 +5,7 @@ MAINTAINER hradec <hradec@hradec.com>
 # install needed packages
 RUN  	echo -e '\n\n[archlinuxfr]\nSigLevel = Never\nServer = http://repo.archlinux.fr/$arch\n\n' >> /etc/pacman.conf ; \
     	pacman -Syyuu --noconfirm ; \
-	pacman -S yaourt sudo net-tools nfs-utils sudo base-devel rsync  --noconfirm
+	pacman -S yaourt sudo net-tools nfs-utils sudo base-devel rsync git zip --noconfirm
 
 # add yaourt user and group
 RUN groupadd -r yaourt && \
@@ -15,7 +15,7 @@ RUN mkdir /tmp/yaourt && \
     echo 'yaourt ALL=(ALL) NOPASSWD: ALL' | EDITOR='tee -a' visudo
 
 
-# patch aur lizardfs to build the latest git commit - master.zip 
+# patch aur lizardfs to build the latest git commit - master.zip
 USER yaourt
 
 RUN \
@@ -26,11 +26,12 @@ RUN \
     curl 'https://aur.archlinux.org/cgit/aur.git/plain/lizardfs.install?h=lizardfs' > ./lizardfs.install &&\
     cp ./PKGBUILD ./PKGBUILD.original && \
     cat  ./PKGBUILD.original \
-        | sed 's/http:..github.com.lizardfs.lizardfs.archive....pkgver..tar.gz/https:\/\/github.com\/lizardfs\/lizardfs\/archive\/master.zip/g' \
+        | sed 's/.http:..github.com.lizardfs.lizardfs.archive....pkgver..tar.gz./lizardfs-master.zip/g' \
         | sed 's/3.11.3/master/' && \
+    git clone http://cr.skytechnology.pl:8081/lizardfs lizardfs-master &&\
+    zip lizardfs-master.zip ./lizardfs-master &&\
     makepkg . --skipchecksums --install --syncdeps --noconfirm
 
-RUN /bin/bash
 
 
 
