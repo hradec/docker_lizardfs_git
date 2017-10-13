@@ -1,3 +1,5 @@
+# 12/sep/2017
+
 from base/archlinux:latest
 
 MAINTAINER hradec <hradec@hradec.com>
@@ -20,7 +22,7 @@ USER yaourt
 
 RUN \
     export MAKEFLAGS=" -j $(grep processor /proc/cpuinfo | wc -l) " && \
-    cd /tmp/yaourt && \
+    cd /tmp/yaourt && sudo pacman -Syyuu --noconfirm && \
     curl 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=lizardfs' > ./PKGBUILD &&\
     curl 'https://aur.archlinux.org/cgit/aur.git/plain/cmath.patch?h=lizardfs' > ./cmath.patch &&\
     curl 'https://aur.archlinux.org/cgit/aur.git/plain/lizardfs.install?h=lizardfs' > ./lizardfs.install &&\
@@ -28,10 +30,12 @@ RUN \
     cat  ./PKGBUILD.original \
         | sed 's/.http:..github.com.lizardfs.lizardfs.archive....pkgver..tar.gz./lizardfs-master.zip/g' \
         | sed 's/3.11.3/master/' && \
-    git clone http://cr.skytechnology.pl:8081/lizardfs lizardfs-master &&\
+    git clone https://github.com/lizardfs/lizardfs.git  lizardfs-master &&\
     zip lizardfs-master.zip ./lizardfs-master &&\
     makepkg . --skipchecksums --install --syncdeps --noconfirm
 
+
+#    git clone http://cr.skytechnology.pl:8081/lizardfs lizardfs-master &&\
 
 
 
